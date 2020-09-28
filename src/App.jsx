@@ -26,7 +26,7 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/">
+        <Route exact path="/">
           <NavBar />
           <Cart
             gifs={gifs.filter((gif) => gif.cart)}
