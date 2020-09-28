@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
+import Gif from "./Gif";
 
-export default function Cart() {
-  const [cart, setCart] = useState([]);
-
+export default function Cart({ gifs, handleClick }) {
   return (
-    <>
-      {cart.map((gif) => (
-        <p>gif component here, yo</p>
+    <div className="flex flex-wrap">
+      {gifs.map((gif) => (
+        <Gif key={gif.id} handleClick={handleClick} {...gif} />
       ))}
-    </>
+    </div>
   );
 }
