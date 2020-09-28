@@ -1,9 +1,17 @@
+.flow > * + * {
+  margin: 1rem;
+}
+
 .flex {
   display: flex;
 }
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.mx-s {
+  margin: 0.5rem;
 }
 
 .px-s {

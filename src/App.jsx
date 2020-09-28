@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./css/App.css";
-// import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { fetchGifs } from "./services/api";
 
 import NavBar from "./components/NavBar";
+import Cart from "./components/Cart";
 import StoreFront from "./components/StoreFront";
+import Checkout from "./components/Checkout";
 
 export default function App() {
   const [gifs, setGifs] = useState([]);
@@ -13,18 +15,37 @@ export default function App() {
     fetchGifs().then(setGifs);
   }, []);
 
-  return (
-    <>
-      <NavBar />
-      <StoreFront gifs={gifs} />
-    </>
-  );
-}
+  function addGifToCart(id) {
+    setGifs(gifs.map((gif) => (gif.id === id ? { ...gif, cart: true } : gif)));
+  }
 
-{
-  /* <Route path="/" render={(props) => <NavBar {...props} />} />
-<Route path="/signup" render={(props) => <Signup {...props} />} />
-<Route path="/store" render={<StoreFront gifs={gifs} />} />
-<Route path="/cart" render={(props) => <Cart {...props} />} />
-<Route path="/login" render={(props) => <Login {...props} />} /> */
+  function remGifFromCart(id) {
+    setGifs(gifs.map((gif) => (gif.id === id ? { ...gif, cart: false } : gif)));
+  }
+
+  return (
+    <Router>
+      <Switch>
+        <Route path="/">
+          <NavBar />
+          <Cart
+            gifs={gifs.filter((gif) => gif.cart)}
+            handleClick={remGifFromCart}
+          />
+          <StoreFront gifs={gifs} handleClick={addGifToCart} />
+        </Route>
+        <Route path="/checkout">
+          <NavBar />
+          <Cart
+            gifs={gifs.filter((gif) => gif.cart)}
+            handleClick={remGifFromCart}
+          />
+          <Checkout
+            gifs={gifs.filter((gif) => gif.cart)}
+            remGifFromCart={remGifFromCart}
+          />
+        </Route>
+      </Switch>
+    </Router>
+  );
 }
