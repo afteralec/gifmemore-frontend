@@ -72,7 +72,7 @@ export async function postOrder(orderData) {
     // orderData should carry the front-end cart details to create records in join table on backend ~> see comments in ORDER CONTROLLER and ORDER MODEL 
     const resp = await fetch(`${API}/orders`, {
         method: "POST",
-        header: headers(),
+        headers: headers(),
         body: JSON.stringify(orderData)
     });
     return await resp.json();
@@ -84,6 +84,25 @@ export async function fetchUserOrderHistory(userId) {
     return await resp.json();
 }
 
+// export async function fetchCartTotal(itemIds) {
+//     console.log(itemIds)
+//     const resp = await fetch(`${API}/cart_total`, {
+//         method: "POST",
+//         headers: headers(), 
+//         body: JSON.stringify(itemIds)
+//     })
+//     return await resp.json()
+// }
+
+export function fetchCartTotal(itemIds) {
+    console.log(itemIds)
+    return fetch(`${API}/cart_total`, {
+        method: "POST",
+        headers: headers(), 
+        body: JSON.stringify(itemIds)
+    })
+    .then(resp => resp.json())
+}
 
 
 // ******* CATEGORY CALLS ********* => GET index
@@ -104,7 +123,7 @@ export async function fetchCart(cartId) {
 
 export async function addToCart(itemCartData) {
     const resp = await fetch(`${API}/cart/addItem`, {
-        method: 'Post',
+        method: 'POST',
         headers: headers(), 
         body: JSON.stringify(itemCartData)
     });
@@ -113,7 +132,7 @@ export async function addToCart(itemCartData) {
 
 export async function removeFromCart(itemCartData) {
     const resp = await fetch(`${API}/cart/removeItem`, {
-        method: 'Post',
+        method: 'POST',
         headers: headers(), 
         body: JSON.stringify(itemCartData)
     });
