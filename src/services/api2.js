@@ -78,31 +78,23 @@ export async function postOrder(orderData) {
     return await resp.json();
 }
 
+
 export async function fetchUserOrderHistory(userId) {
     // went with custom route, can change later if we decide to
     const resp = await fetch(`${API}/orders/user_history/${userId}`);
     return await resp.json();
 }
 
-// export async function fetchCartTotal(itemIds) {
-//     console.log(itemIds)
-//     const resp = await fetch(`${API}/cart_total`, {
-//         method: "POST",
-//         headers: headers(), 
-//         body: JSON.stringify(itemIds)
-//     })
-//     return await resp.json()
-// }
-
-export function fetchCartTotal(itemIds) {
+export async function fetchCartTotal(itemIds) {
     console.log(itemIds)
-    return fetch(`${API}/cart_total`, {
+    const resp = await fetch(`${API}/cart_total`, {
         method: "POST",
         headers: headers(), 
         body: JSON.stringify(itemIds)
     })
-    .then(resp => resp.json())
+    return await resp.json()
 }
+
 
 
 // ******* CATEGORY CALLS ********* => GET index

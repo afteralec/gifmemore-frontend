@@ -1,23 +1,30 @@
 import React, {useState} from 'react'
+import { useHistory } from 'react-router-dom'
+import { postOrder } from '../services/api2'
 
-function OrderForm({total}) {
+function OrderForm({total, itemIds, setOrderConf, emptyCart}) {
 
-    const [form, setForm] = useState({
+    const history = useHistory()
+    const defaultForm = {
         name: '',
         email: '',
-        address: { line1: '', line2: '', city: '', state: '', zip: '' },
-        amount: 0
-    })
+        address: { line1: '', line2: '', city: '', state: '', zip: '' }
+    }
+    const [form, setForm] = useState(defaultForm)
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        postOrder({order: {...form, amount: total, item_ids: itemIds}}).then((res)=> {
+            setOrderConf(res)
+            emptyCart()
+        })
+        history.push('/thank-you')
+        setForm(defaultForm)
     }
 
     const handleChange = (e) => {
         let obj = {[e.target.name]: e.target.value}
-         setForm(prevState => ({ ...prevState, ...obj }))
-        // setForm({...form, address: {...form.address}, [e.target.name]: e.target.value })
-        
+         setForm(prevState => ({ ...prevState, ...obj }))        
     }
 
     const handleChangeAddress = (e) => {
@@ -60,7 +67,7 @@ function OrderForm({total}) {
                     Zip Code
                 <input type='text' placeholder='Zip Code' value={form.address.zip} name='zip' onChange={handleChangeAddress} />
                 </label>
-
+                <button >Submit</button>
             </form>
         </div >
     )

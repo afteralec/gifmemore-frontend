@@ -7,9 +7,11 @@ import NavBar from "./components/NavBar";
 import Cart from "./components/Cart";
 import StoreFront from "./components/StoreFront";
 import Checkout from "./components/Checkout";
+import OrderConfirmation from "./components/OrderConfirmation"
 
 export default function App() {
   const [gifs, setGifs] = useState([]);
+  const [orderConf, setOrderConf] = useState(false)
   // const [cart, setCart] = useState(loadCartFromLocalStorage || []);
 
 
@@ -27,6 +29,11 @@ export default function App() {
     const newGifs = gifs.map((gif) => (gif.id === id ? { ...gif, cart: false } : gif))
     setGifs(newGifs);
     localStorage.setItem('cart', JSON.stringify({ content: cartGifs(newGifs) }))
+  }
+
+  function emptyCart(){
+    localStorage.removeItem('cart')
+    setGifs(gifs=> gifs.map(gif => ({...gif, cart: false})))
   }
 
   function loadCartFromLocalStorage(gifs) {
@@ -62,7 +69,14 @@ export default function App() {
           <Checkout
             gifs={cartGifs(gifs)}
             remGifFromCart={remGifFromCart}
-
+            setOrderConf={setOrderConf}
+            emptyCart={emptyCart}
+          />
+        </Route>
+        <Route path="/thank-you">
+          <NavBar />
+          <OrderConfirmation
+            confirmation={orderConf}
           />
         </Route>
       </Switch>
