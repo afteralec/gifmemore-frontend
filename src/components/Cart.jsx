@@ -1,7 +1,9 @@
 import React from "react";
 import Gif from "./Gif";
+import {Link} from "react-router-dom"
 
-export default function Cart({ gifs, handleClick }) {
+export default function Cart({ gifs, handleClick, linkTo, buttonText }) {
+
   return (
   <>
     <div className="flex flex-wrap">
@@ -9,6 +11,9 @@ export default function Cart({ gifs, handleClick }) {
         <Gif key={gif.id} handleClick={handleClick} {...gif} />
       ))}
     </div>
+    <Link to={linkTo}>
+    <button >{buttonText}</button>
+    </Link>
     <hr/>
   </>
   );
