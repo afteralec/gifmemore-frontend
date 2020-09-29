@@ -10,17 +10,38 @@ import Checkout from "./components/Checkout";
 
 export default function App() {
   const [gifs, setGifs] = useState([]);
+  // const [cart, setCart] = useState(loadCartFromLocalStorage || []);
+
 
   useEffect(() => {
-    fetchGifs().then(setGifs);
+    fetchGifs().then(loadCartFromLocalStorage);
   }, []);
 
   function addGifToCart(id) {
-    setGifs(gifs.map((gif) => (gif.id === id ? { ...gif, cart: true } : gif)));
+    const newGifs = gifs.map((gif) => (gif.id === id ? { ...gif, cart: true } : gif))
+    setGifs(newGifs);
+    localStorage.setItem('cart', JSON.stringify({content: cartGifs(newGifs)}))
   }
 
   function remGifFromCart(id) {
-    setGifs(gifs.map((gif) => (gif.id === id ? { ...gif, cart: false } : gif)));
+    const newGifs = gifs.map((gif) => (gif.id === id ? { ...gif, cart: false } : gif))
+    setGifs(newGifs);
+    localStorage.setItem('cart', JSON.stringify({content: cartGifs(newGifs)}))
+  }
+
+  function loadCartFromLocalStorage(gifs) {
+    // console.log(gifs)
+    const cart = localStorage.getItem('cart') || false
+    // console.log(cart)
+    if(cart){
+      const cartObjs = JSON.parse(cart).content
+      const cartIds = cartObjs.map(gif => gif.id)
+      const newGifs = gifs.filter(gif => !cartIds.includes(gif.id))
+      setGifs([...newGifs, ...cartObjs])
+    }
+    else {
+      setGifs(gifs)
+    }
   }
 
   return (
@@ -29,23 +50,23 @@ export default function App() {
         <Route exact path="/">
           <NavBar />
           <Cart
-            gifs={gifs.filter((gif) => gif.cart)}
+            gifs={cartGifs(gifs)}
             handleClick={remGifFromCart}
           />
           <StoreFront gifs={gifs} handleClick={addGifToCart} />
         </Route>
         <Route path="/checkout">
           <NavBar />
-          <Cart
-            gifs={gifs.filter((gif) => gif.cart)}
-            handleClick={remGifFromCart}
-          />
           <Checkout
-            gifs={gifs.filter((gif) => gif.cart)}
+            gifs={cartGifs(gifs)}
             remGifFromCart={remGifFromCart}
           />
         </Route>
       </Switch>
     </Router>
   );
+}
+
+function cartGifs(gifs) {
+  return gifs.filter((gif) => gif.cart)
 }
