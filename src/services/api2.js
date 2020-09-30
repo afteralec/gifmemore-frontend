@@ -14,6 +14,14 @@ const headers = () => {
 
 // ******* USER CALLS ********* => GET, POST, UPDATE, DELETE
 
+
+export async function whoami() {
+    const resp = await fetch('http://localhost:5500/whoami', {
+        headers: headers()
+    })
+    return await resp.json()
+}
+
 export async function login(userData) {
     // no Auth so just a GET request for now
     const resp = await fetch(`http://localhost:5500/login`, {

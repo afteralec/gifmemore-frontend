@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./css/App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { fetchGifs } from "./services/api";
+import { whoami } from "./services/api2";
 
 import NavBar from "./components/NavBar";
 import Cart from "./components/Cart";
@@ -15,10 +16,17 @@ import Profile from "./components/Profile";
 export default function App() {
   const [gifs, setGifs] = useState([]);
   const [orderConf, setOrderConf] = useState(false);
+  const [user, setUser] = useState(false);
+
 
   useEffect(() => {
     fetchGifs().then(loadCartFromLocalStorage);
+
+    whoami().then(json => {
+      if(json.user) setUser(json.user)
+    })
   }, []);
+
 
   function addGifToCart(id) {
     const newGifs = gifs.map((gif) =>
@@ -62,9 +70,9 @@ export default function App() {
 
   return (
     <Router>
+      <NavBar user={user}/>
       <Switch>
         <Route exact path="/">
-          <NavBar />
           <Cart
             gifs={cartGifs(gifs)}
             handleClick={remGifFromCart}
@@ -75,7 +83,6 @@ export default function App() {
         </Route>
 
         <Route path="/checkout">
-          <NavBar />
           <Checkout
             gifs={cartGifs(gifs)}
             remGifFromCart={remGifFromCart}
@@ -85,23 +92,19 @@ export default function App() {
         </Route>
 
         <Route path="/thank-you">
-          <NavBar />
           <OrderConfirmation confirmation={orderConf} />
         </Route>
 
         <Route path="/signup">
-          <NavBar />
-          <Signup />
+          <Signup setUser={setUser} />
         </Route>
 
         <Route path="/login">
-          <NavBar />
-          <Login />
+          <Login setUser={setUser} />
         </Route>
 
         <Route path="/profile">
-          <NavBar />
-          <Profile />
+          <Profile {...user}/>
         </Route>
       </Switch>
     </Router>
