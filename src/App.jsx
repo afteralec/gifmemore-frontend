@@ -8,6 +8,7 @@ import Cart from "./components/Cart";
 import StoreFront from "./components/StoreFront";
 import Checkout from "./components/Checkout";
 import OrderConfirmation from "./components/OrderConfirmation"
+import Signup from './components/Signup'
 
 export default function App() {
   const [gifs, setGifs] = useState([]);
@@ -77,6 +78,11 @@ export default function App() {
           <NavBar />
           <OrderConfirmation
             confirmation={orderConf}
+          />
+        </Route>
+        <Route path="/signup">
+          <NavBar />
+          <Signup
           />
         </Route>
       </Switch>

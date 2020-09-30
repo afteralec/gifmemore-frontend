@@ -11,11 +11,11 @@ export default function Checkout({ gifs, remGifFromCart, setOrderConf, emptyCart
   useEffect(()=>{
     // gifs.length > 0 && 
     getTotalCost()
-  }, [gifs])
+  }, [])
 
   function getTotalCost(){
     const ids = itemIds()
-    const obj = {item_ids: ids}
+    // const obj = {item_ids: ids}
     fetchCartTotal({item_ids: ids}).then(setTotal)
   }
 

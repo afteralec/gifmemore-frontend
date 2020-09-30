@@ -1,4 +1,5 @@
 const API = "http://localhost:5500/api/v1";
+const userAPI = "http://localhost:5500/users";
 // no Auth so no need for token at the moment
 // const token = () => localStorage.getItem("token");
 
@@ -15,13 +16,13 @@ const headers = () => {
 
 export async function login(userData) {
     // no Auth so just a GET request for now
-    const resp = await fetch(`${API}/users/${userData.id}`)
+    const resp = await fetch(`${userAPI}/${userData.id}`)
     return await resp.json()
 }
 
 export async function signup(userData) {
     // no Auth needs to be implemented on backend
-    const resp = await fetch(`${API}/users/`, {
+    const resp = await fetch(`${userAPI}`, {
         method: "POST",
         headers: headers(),
         body: JSON.stringify(userData)
@@ -30,7 +31,7 @@ export async function signup(userData) {
 }
 
 export async function updateUser(userData) {
-    const resp = await fetch(`${API}/users/${userData.id}`, {
+    const resp = await fetch(`${userAPI}/${userData.id}`, {
         method: "PATCH",
         headers: headers(),
         body: JSON.stringify(userData)
@@ -39,7 +40,7 @@ export async function updateUser(userData) {
 }
 
 export async function deleteUser(userData) {
-    const resp = await fetch(`${API}/users/${userData.id}`, {
+    const resp = await fetch(`${userAPI}/${userData.id}`, {
         method: "DELETE",
         headers: headers()
     })
