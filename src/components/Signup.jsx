@@ -6,9 +6,10 @@ function Signup(props) {
     const [form, setForm] = React.useState({
         name: '',
         email: '', 
-        password: '', 
-        password_confirmation: '',
+        password: ''
     })
+
+    const [pwConfirmation, setPwConfirmation] = React.useState('')
 
     function handleChange(e) {
         let obj = {[e.target.name]: e.target.value}
@@ -38,7 +39,7 @@ function Signup(props) {
                 </label>
                 <label>
                     Password Confirmation
-                <input type='password' placeholder='Re-enter Your Password' value={form.password_confirmation} name='password_confirmation' onChange={handleChange} />
+                <input type='password' placeholder='Re-enter Your Password' value={pwConfirmation} name='password_confirmation' onChange={(e) => setPwConfirmation(e.target.value)} />
                 </label>
                 <button >Submit</button>
             </form>
