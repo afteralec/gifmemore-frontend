@@ -1,33 +1,50 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Cart from "./Cart";
 import OrderSummary from "./OrderSummary";
-import OrderForm from "./OrderForm"
-import {fetchCartTotal} from "../services/api2"
+import OrderForm from "./OrderForm";
+import { fetchCartTotal } from "../services/api2";
 
-export default function Checkout({ gifs, remGifFromCart, setOrderConf, emptyCart }) {
+export default function Checkout({
+  gifs,
+  remGifFromCart,
+  setOrderConf,
+  emptyCart,
+}) {
+  const [total, setTotal] = useState("Calculating...");
 
-  const [total, setTotal] = useState('Calculating...')
+  useEffect(() => {
+    getTotalCost();
+  });
 
   useEffect(()=>{
     getTotalCost()
   })
 
-  function getTotalCost(){
-    const ids = itemIds()
-    fetchCartTotal({item_ids: ids}).then(setTotal)
+  function getTotalCost() {
+    const ids = itemIds();
+    fetchCartTotal({ item_ids: ids }).then(setTotal);
   }
 
-  function itemIds(){
-    return gifs.map(gif => gif.id)
+  function itemIds() {
+    return gifs.map((gif) => gif.id);
   }
 
-  
   return (
     <>
-      <Cart id="checkoutCart" gifs={gifs} handleClick={remGifFromCart} linkTo='/'
-        buttonText='Return To Gifs' />
-      <OrderSummary gifs={gifs} total={total}/>
-      <OrderForm total={total} itemIds={itemIds()} setOrderConf={setOrderConf} emptyCart={emptyCart}/>
+      <Cart
+        id="checkoutCart"
+        gifs={gifs}
+        handleClick={remGifFromCart}
+        linkTo="/"
+        buttonText="Return To Gifs"
+      />
+      <OrderSummary gifs={gifs} total={total} />
+      <OrderForm
+        total={total}
+        itemIds={itemIds()}
+        setOrderConf={setOrderConf}
+        emptyCart={emptyCart}
+      />
     </>
   );
 }
