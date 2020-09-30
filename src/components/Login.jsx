@@ -1,16 +1,51 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState } from "react";
+import { login } from "../services/api2";
+import { useHistory } from "react-router-dom";
 
-const Login = () => {
+export default function Login() {
+  const history = useHistory();
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
-    const [username, setUsername] = React.useState(null)
-    const [password, setPassword] = React.useState(null)
-    
+  function handleChange(e) {
+    let obj = { [e.target.name]: e.target.value };
+    setForm((prev) => ({ ...prev, ...obj }));
+  }
 
-    return (
-        <div>
-            I am a login page.
-        </div>
-    )
+  function handleSubmit(e) {
+    e.preventDefault();
+    login({ user: { ...form } }).then((res) => {
+      history.push("/profile");
+    });
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Email
+          <input
+            type="email"
+            placeholder="Enter Your Email"
+            value={form.email}
+            name="email"
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Password
+          <input
+            type="password"
+            placeholder="Enter Your Password"
+            value={form.password}
+            name="password"
+            onChange={handleChange}
+          />
+        </label>
+        <button>Submit</button>
+      </form>
+    </div>
+  );
 }
-
-export default Login
