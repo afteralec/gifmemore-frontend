@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { signup } from '../services/api2'
 
 function Signup(props) {
@@ -7,7 +8,8 @@ function Signup(props) {
         name: '',
         email: '', 
         password: ''
-    })
+    }),
+    history = useHistory()
 
     const [pwConfirmation, setPwConfirmation] = React.useState('')
 
@@ -19,7 +21,7 @@ function Signup(props) {
     function handleSubmit(e) {
         e.preventDefault()
         signup({user: {...form}})
-
+        history.push('/login')
     }
 
     return (
@@ -43,6 +45,7 @@ function Signup(props) {
                 </label>
                 <button >Submit</button>
             </form>
+            
         </div>
     )
 }
