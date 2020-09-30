@@ -16,7 +16,8 @@ export default function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    login({ user: { ...form } }).then((res) => {
+    login({ user: { ...form } }).then((json) => {
+      localStorage.setItem('token', json.jwt)
       history.push("/profile");
     });
   }

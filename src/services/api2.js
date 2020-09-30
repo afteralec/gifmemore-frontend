@@ -1,13 +1,13 @@
 const API = "http://localhost:5500/api/v1";
 const userAPI = "http://localhost:5500/users";
 // no Auth so no need for token at the moment
-// const token = () => localStorage.getItem("token");
+const token = () => localStorage.getItem("token");
 
 const headers = () => {
     return {
         "Content-Type": "application/json",
         Accept: "application/json",
-        //   Authorization: token()
+        Authorization: token()
     };
 };
 
@@ -16,7 +16,11 @@ const headers = () => {
 
 export async function login(userData) {
     // no Auth so just a GET request for now
-    const resp = await fetch(`${userAPI}/${userData.id}`)
+    const resp = await fetch(`http://localhost:5500/login`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify(userData)
+    })
     return await resp.json()
 }
 
