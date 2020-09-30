@@ -99,7 +99,6 @@ export async function fetchUserOrderHistory(userId) {
 }
 
 export async function fetchCartTotal(itemIds) {
-    console.log(itemIds)
     const resp = await fetch(`${API}/cart_total`, {
         method: "POST",
         headers: headers(), 
