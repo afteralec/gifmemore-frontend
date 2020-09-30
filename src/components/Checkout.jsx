@@ -16,6 +16,10 @@ export default function Checkout({
     getTotalCost();
   });
 
+  useEffect(()=>{
+    getTotalCost()
+  })
+
   function getTotalCost() {
     const ids = itemIds();
     fetchCartTotal({ item_ids: ids }).then(setTotal);
