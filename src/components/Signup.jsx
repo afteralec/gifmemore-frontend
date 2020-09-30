@@ -18,7 +18,8 @@ export default function Signup() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    signup({ user: { ...form } }).then((user) => {
+    signup({ user: { ...form } }).then((json) => {
+        localStorage.setItem('token', json.jwt)
       history.push("/profile");
     });
   }
