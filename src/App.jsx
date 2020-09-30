@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
 import { fetchGifs } from "./services/api";
 import { whoami } from "./services/api2";
 
@@ -14,9 +14,10 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 
 export default function App() {
-  const [gifs, setGifs] = useState([]);
-  const [orderConf, setOrderConf] = useState(false);
-  const [user, setUser] = useState(false);
+  const [gifs, setGifs] = useState([]),
+  [orderConf, setOrderConf] = useState(false),
+  [user, setUser] = useState(false),
+  history = useHistory();
 
 
   useEffect(() => {
@@ -26,7 +27,6 @@ export default function App() {
       if(json.user) setUser(json.user)
     })
   }, []);
-
 
   function addGifToCart(id) {
     const newGifs = gifs.map((gif) =>
@@ -68,9 +68,14 @@ export default function App() {
     }
   }
 
+  function handleLogout(){
+    localStorage.removeItem('token')
+    setUser(false)
+  }
+
   return (
     <Router>
-      <NavBar user={user}/>
+      <NavBar user={user} handleClick={handleLogout} />
       <Switch>
         <Route exact path="/">
           <Cart
@@ -104,7 +109,7 @@ export default function App() {
         </Route>
 
         <Route path="/profile">
-          <Profile {...user}/>
+          {user && <Profile {...user}/>}
         </Route>
       </Switch>
     </Router>
