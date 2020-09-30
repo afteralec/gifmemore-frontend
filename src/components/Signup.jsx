@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { signup } from "../services/api2";
 
+
 export default function Signup() {
   const [form, setForm] = useState({
       name: "",
@@ -11,18 +12,26 @@ export default function Signup() {
     [pwConfirmation, setPwConfirmation] = useState(""),
     history = useHistory();
 
+
+    const [form, setForm] = React.useState({
+        name: '',
+        email: '', 
+        password: ''
+    }),
+    history = useHistory()
+
   function handleChange(e) {
     let obj = { [e.target.name]: e.target.value };
     setForm((prev) => ({ ...prev, ...obj }));
   }
-
+  
   function handleSubmit(e) {
     e.preventDefault();
     signup({ user: { ...form } }).then((user) => {
       history.push("/profile");
     });
   }
-
+  
   return (
     <div>
       <form onSubmit={handleSubmit}>
