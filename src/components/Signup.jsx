@@ -3,7 +3,8 @@ import { useHistory } from "react-router-dom";
 import { signup } from "../services/api2";
 
 
-export default function Signup() {
+export default function Signup({setUser}) {
+
   const [form, setForm] = useState({
       name: "",
       email: "",
@@ -29,6 +30,7 @@ export default function Signup() {
     e.preventDefault();
     signup({ user: { ...form } }).then((json) => {
         localStorage.setItem('token', json.jwt)
+        setUser(json.user)
       history.push("/profile");
     });
   }
