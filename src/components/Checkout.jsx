@@ -9,13 +9,11 @@ export default function Checkout({ gifs, remGifFromCart, setOrderConf, emptyCart
   const [total, setTotal] = useState('Calculating...')
 
   useEffect(()=>{
-    // gifs.length > 0 && 
     getTotalCost()
-  }, [])
+  })
 
   function getTotalCost(){
     const ids = itemIds()
-    // const obj = {item_ids: ids}
     fetchCartTotal({item_ids: ids}).then(setTotal)
   }
 
