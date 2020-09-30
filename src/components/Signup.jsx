@@ -21,7 +21,7 @@ function Signup(props) {
     function handleSubmit(e) {
         e.preventDefault()
         signup({user: {...form}})
-        history.push('/login')
+        history.push('/profile')
     }
 
     return (
