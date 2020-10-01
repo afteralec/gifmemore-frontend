@@ -17,9 +17,14 @@ export default function Login({setUser}) {
   function handleSubmit(e) {
     e.preventDefault();
     login({ user: { ...form } }).then((json) => {
-      localStorage.setItem('token', json.jwt)
-      setUser(json.user)
-      history.push("/profile");
+      console.log(json)
+      if(json.error){
+        alert(json.error)
+      } else {
+        localStorage.setItem('token', json.jwt)
+        setUser(json.user)
+        history.push("/profile");
+      }
     });
   }
 

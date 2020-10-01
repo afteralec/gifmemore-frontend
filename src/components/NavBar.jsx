@@ -7,6 +7,7 @@ export default function NavBar({user, handleClick}) {
       <NavLink to="/">
       <span className="logo">gifMeMore.</span>
       </NavLink>
+      <NavLink to="/signup">Temp Signup</NavLink>
       <NavLink to="/checkout">Checkout</NavLink>
       {user ? <NavLink to='/' onClick={handleClick}>Log Out</NavLink> : <NavLink to="/login">Login</NavLink>}
       {user && <NavLink to='/profile'>Profile</NavLink>}

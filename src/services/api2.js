@@ -22,6 +22,13 @@ export async function whoami() {
     return await resp.json()
 }
 
+// export function whoami(gifs) {
+//     return fetch('http://localhost:5500/whoami', {
+//         headers: headers()
+//     }, gifs)
+//     .then((resp, gifs) => [resp.json(), gifs])
+// }
+
 export async function login(userData) {
     // no Auth so just a GET request for now
     const resp = await fetch(`http://localhost:5500/login`, {
@@ -58,6 +65,7 @@ export async function deleteUser(userData) {
     })
     // have backend send confirmation that user has been deleted
     return await resp.json()
+    // resp && window.history.replaceState(null, null, '/')
 }
 
 
@@ -125,20 +133,20 @@ export async function fetchCart(cartId) {
     return await resp.json();
 }
 
-export async function addToCart(itemCartData) {
-    const resp = await fetch(`${API}/cart/addItem`, {
+export async function addToCart(itemId) {
+    const resp = await fetch(`${API}/cart`, {
         method: 'POST',
         headers: headers(), 
-        body: JSON.stringify(itemCartData)
+        body: JSON.stringify({cart: {item_id: itemId}})
     });
     return await resp.json();
 }
 
-export async function removeFromCart(itemCartData) {
-    const resp = await fetch(`${API}/cart/removeItem`, {
-        method: 'POST',
+export async function removeFromCart(itemId) {
+    const resp = await fetch(`${API}/cart`, {
+        method: 'DELETE',
         headers: headers(), 
-        body: JSON.stringify(itemCartData)
+        body: JSON.stringify({cart: {item_id: itemId}})
     });
     return await resp.json();
 }
