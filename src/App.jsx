@@ -108,7 +108,7 @@ export default function App() {
 
   return (
     <Router>
-      <NavBar user={user} handleClick={handleLogout} />
+      <NavBar gifs={cart} user={user} handleClick={handleLogout} />
       <Switch>
         <Route exact path="/">
           <Cart

@@ -1,22 +1,36 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-export default function NavBar({ user, handleClick }) {
+export default function NavBar({ gifs, user, handleClick }) {
   return (
-    <div>
-      <NavLink to="/">
+    <div className="flow-left mx-1">
+      <NavLink className="hover-link" to="/">
         <span className="logo">gifMeMore.</span>
       </NavLink>
-      <NavLink to="/signup">Temp Signup</NavLink>
-      <NavLink to="/checkout">Checkout</NavLink>
+      {gifs.length > 0 && (
+        <NavLink className="fx-2 hover-link" to="/checkout">
+          Checkout
+        </NavLink>
+      )}
       {user ? (
-        <NavLink to="/" onClick={handleClick}>
+        <NavLink className="fx-2 hover-link" to="/" onClick={handleClick}>
           Log Out
         </NavLink>
       ) : (
-        <NavLink to="/login">Login</NavLink>
+        <>
+          <NavLink className="fx-2 hover-link" to="/signup">
+            Signup
+          </NavLink>
+          <NavLink className="fx-2 hover-link" to="/login">
+            Login
+          </NavLink>
+        </>
       )}
-      {user && <NavLink to="/profile">Profile</NavLink>}
+      {user && (
+        <NavLink className="fx-2 hover-link" to="/profile">
+          Profile
+        </NavLink>
+      )}
     </div>
   );
 }

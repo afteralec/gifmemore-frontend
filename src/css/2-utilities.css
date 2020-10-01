@@ -1,4 +1,19 @@
-.hover-red:hover {
-  background-color: red;
-  color: black;
+.hover-link:hover {
+  text-decoration: underline;
+}
+
+.bg-grey {
+  background: grey;
+}
+
+.br-15 {
+  border-radius: 15px;
+}
+
+.h-250px {
+  height: 250px;
+}
+
+.ovf-hide {
+  overflow: hide;
 }
