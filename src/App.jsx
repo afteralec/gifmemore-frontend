@@ -45,7 +45,6 @@ export default function App() {
 
     if (user) {
       addToCart(id).then((json) => setCart(json.items));
-      // addToCart(id).then((json) => setGifs(loadCartFromResource(json.items)));
     } else {
       localStorage.setItem(
         "cart",
@@ -60,9 +59,6 @@ export default function App() {
 
     if (user) {
       removeFromCart(id).then((json) => setCart(json.items));
-      // removeFromCart(id).then((json) =>
-      //   setGifs(loadCartFromResource(json.items))
-      // );
     } else {
       localStorage.setItem(
         "cart",
@@ -75,13 +71,6 @@ export default function App() {
     localStorage.removeItem("cart");
     setCart([]);
   }
-
-  // function loadCartFromResource(cart) {
-  //   const cartIds = cart.map((gif) => gif.id);
-  //   const newGifs = gifs.filter((gif) => !cartIds.includes(gif.id));
-
-  //   return [...newGifs, ...cart.map((gif) => ({ ...gif, cart: true }))];
-  // }
 
   function handleLogout() {
     if (window.confirm("Would you like to log out?")) {
@@ -101,9 +90,6 @@ export default function App() {
 
   function handleDelete() {
     if (window.confirm("Would you like to delete your profile?")) {
-      // localStorage.removeItem("token");
-      // setUser(false);
-
       deleteUser(user);
 
       localStorage.removeItem("token");
@@ -156,7 +142,9 @@ export default function App() {
         </Route>
 
         <Route path="/profile">
-          {user && <Profile {...user} handleDelete={handleDelete} />}
+          {user && (
+            <Profile {...user} setUser={setUser} handleDelete={handleDelete} />
+          )}
         </Route>
       </Switch>
     </Router>
