@@ -1,9 +1,31 @@
+.dp-inline-block {
+  display: inline;
+}
+
 .flow > * + * {
   margin: 1rem;
 }
 
+.flow-left > * + * {
+  margin-left: 1rem;
+}
+
 .flex {
   display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-start {
+  justify-content: start;
+  align-items: start;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
 }
 
 .flex-wrap {
@@ -14,6 +36,26 @@
   margin: 0.5rem;
 }
 
+.mx-1 {
+  margin: 1rem;
+}
+
+.px-1 {
+  padding: 1rem;
+}
+
 .px-s {
   padding: 0.5rem;
+}
+
+.fx-2 {
+  font-size: 1.2rem;
+}
+
+.ps-f {
+  position: absolute;
+}
+
+.btm-0 {
+  bottom: 0;
 }
