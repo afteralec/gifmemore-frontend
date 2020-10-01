@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export default function Profile({ name, email, address, handleDelete }) {
   return (
@@ -7,7 +8,9 @@ export default function Profile({ name, email, address, handleDelete }) {
       <div>{name}</div>
       <div>{email}</div>
       <div>{address}</div>
-      <button onClick={handleDelete}>Delete Profile</button>
+      <NavLink to="/" onClick={handleDelete}>
+        Delete Profile
+      </NavLink>
     </div>
   );
 }

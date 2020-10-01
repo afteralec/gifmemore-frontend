@@ -59,9 +59,10 @@ export default function App() {
     setCart(newCart);
 
     if (user) {
-      removeFromCart(id).then((json) =>
-        setGifs(loadCartFromResource(json.items))
-      );
+      removeFromCart(id).then((json) => setCart(json.items));
+      // removeFromCart(id).then((json) =>
+      //   setGifs(loadCartFromResource(json.items))
+      // );
     } else {
       localStorage.setItem(
         "cart",
@@ -75,27 +76,47 @@ export default function App() {
     setCart([]);
   }
 
-  function loadCartFromResource(cart) {
-    const cartIds = cart.map((gif) => gif.id);
-    const newGifs = gifs.filter((gif) => !cartIds.includes(gif.id));
+  // function loadCartFromResource(cart) {
+  //   const cartIds = cart.map((gif) => gif.id);
+  //   const newGifs = gifs.filter((gif) => !cartIds.includes(gif.id));
 
-    return [...newGifs, ...cart.map((gif) => ({ ...gif, cart: true }))];
-  }
+  //   return [...newGifs, ...cart.map((gif) => ({ ...gif, cart: true }))];
+  // }
 
   function handleLogout() {
     if (window.confirm("Would you like to log out?")) {
       localStorage.removeItem("token");
 
       setUser(false);
-      setCart([]);
+      setCart(() => {
+        const cart = localStorage.getItem("cart");
+        if (cart) {
+          return JSON.parse(cart).content;
+        } else {
+          return [];
+        }
+      });
     }
   }
 
   function handleDelete() {
     if (window.confirm("Would you like to delete your profile?")) {
-      localStorage.removeItem("token");
-      setUser(false);
+      // localStorage.removeItem("token");
+      // setUser(false);
+
       deleteUser(user);
+
+      localStorage.removeItem("token");
+
+      setUser(false);
+      setCart(() => {
+        const cart = localStorage.getItem("cart");
+        if (cart) {
+          return JSON.parse(cart).content;
+        } else {
+          return [];
+        }
+      });
     }
   }
 

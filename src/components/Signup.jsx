@@ -25,6 +25,7 @@ export default function Signup({ setUser, setCart }) {
       signup({ user: { ...form } }).then((json) => {
         localStorage.setItem("token", json.jwt);
         setUser(json.user);
+        setCart([]);
         history.push("/profile");
       });
     }
