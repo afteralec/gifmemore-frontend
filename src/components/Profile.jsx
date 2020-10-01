@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import FormField from "./FormField";
+import { updateUser } from "../services/api2";
 
-export default function Profile({ name, email, address, handleDelete }) {
-  const [showForms, setShowForms] = useState([]);
-  const [formName, setName] = useState(name);
-  const [formEmail, setEmail] = useState(email);
+export default function Profile({ name, email, setUser, handleDelete }) {
+  const [showForms, setShowForms] = useState([]),
+    [formName, setName] = useState(name),
+    [formEmail, setEmail] = useState(email);
 
   function showFormField(name) {
     setShowForms((state) => [...state, name]);
@@ -23,6 +24,22 @@ export default function Profile({ name, email, address, handleDelete }) {
     event.preventDefault();
 
     hideFormField(name);
+
+    let value;
+
+    switch (name) {
+      case "name":
+        value = formName;
+        break;
+      case "email":
+        value = formEmail;
+        break;
+      default:
+        break;
+    }
+
+    setUser((user) => ({ ...user, [name]: value }));
+    updateUser({ [name]: value });
   }
 
   function handleClick(name) {
@@ -73,7 +90,6 @@ export default function Profile({ name, email, address, handleDelete }) {
       ) : (
         <div onClick={() => handleClick("email")}>{email}</div>
       )}
-      <div>{address}</div>
       <NavLink to="/" onClick={handleDelete}>
         Delete Profile
       </NavLink>
