@@ -9,7 +9,8 @@ export default function Signup({setUser}) {
       password: "",
     }),
     [pwConfirmation, setPwConfirmation] = useState(""),
-    history = useHistory();
+    history = useHistory(),
+    [error, setError] = useState(false);
 
   function handleChange(e) {
     let obj = { [e.target.name]: e.target.value };
@@ -18,11 +19,15 @@ export default function Signup({setUser}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    signup({ user: { ...form } }).then((json) => {
-        localStorage.setItem('token', json.jwt)
-        setUser(json.user)
-      history.push("/profile");
-    });
+    if(form.password !== pwConfirmation) {
+      setError(true)
+    } else {
+      signup({ user: { ...form } }).then((json) => {
+          localStorage.setItem('token', json.jwt)
+          setUser(json.user)
+        history.push("/profile");
+      })
+    }
   }
 
   return (
@@ -65,11 +70,15 @@ export default function Signup({setUser}) {
             placeholder="Re-enter Your Password"
             value={pwConfirmation}
             name="password_confirmation"
-            onChange={(e) => setPwConfirmation(e.target.value)}
+            onChange={(e) => {
+              setError(false)
+              setPwConfirmation(e.target.value)}
+            }
           />
         </label>
         <button>Submit</button>
       </form>
+      { error && 'Passwords do not match'}
     </div>
   );
 }
