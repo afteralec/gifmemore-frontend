@@ -44,7 +44,8 @@ export default function App() {
     setCart(newCart);
 
     if (user) {
-      addToCart(id).then((json) => setGifs(loadCartFromResource(json.items)));
+      addToCart(id).then((json) => setCart(json.items));
+      // addToCart(id).then((json) => setGifs(loadCartFromResource(json.items)));
     } else {
       localStorage.setItem(
         "cart",
