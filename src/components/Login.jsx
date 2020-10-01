@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { login } from "../services/api2";
 import { useHistory } from "react-router-dom";
 
-export default function Login({setUser}) {
+export default function Login({ setUser, setCart }) {
   const history = useHistory();
   const [form, setForm] = useState({
     email: "",
@@ -17,12 +17,13 @@ export default function Login({setUser}) {
   function handleSubmit(e) {
     e.preventDefault();
     login({ user: { ...form } }).then((json) => {
-      console.log(json)
-      if(json.error){
-        alert(json.error)
+      console.log(json);
+      if (json.error) {
+        alert(json.error);
       } else {
-        localStorage.setItem('token', json.jwt)
-        setUser(json.user)
+        localStorage.setItem("token", json.jwt);
+        setUser(json.user);
+        setCart(json.user.items);
         history.push("/profile");
       }
     });

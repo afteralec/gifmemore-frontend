@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/App.css";
-import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { fetchGifs } from "./services/api";
 import { whoami, deleteUser, addToCart, removeFromCart } from "./services/api2";
 
@@ -15,131 +15,118 @@ import Profile from "./components/Profile";
 
 export default function App() {
   const [gifs, setGifs] = useState([]),
-  [orderConf, setOrderConf] = useState(false),
-  [user, setUser] = useState(false),
-  [redirect, setRedirect] = useState(false);
-
-  const history = useHistory();
-
-//Commented out useEffect and whoami (in api2) allow for user's cart to show but user does not 'show' to be logged
-//commented in ^, does not show user's cart but user shows as logged in
+    [orderConf, setOrderConf] = useState(false),
+    [user, setUser] = useState(false),
+    [cart, setCart] = useState([]);
 
   useEffect(() => {
-    fetchGifs().then(gifs => {
-      setGifs(gifs)
-      whoami().then(json => {
-        if(json.user) {
-          setUser(json.user)
-          setGifs(loadCartFromResource(json.user.items))
-        } else {
-          setGifs(loadCartFromLocalStorage(gifs))
-        }
-      })
+    fetchGifs().then(setGifs);
+    whoami().then((json) => {
+      if (json.user) {
+        setUser(json.user);
+        setCart(json.user.items);
+      } else {
+        setCart(() => {
+          const cart = localStorage.getItem("cart");
+          if (cart) {
+            return JSON.parse(cart).content;
+          } else {
+            return [];
+          }
+        });
+      }
     });
   }, []);
 
-  // useEffect(() => {
-  //   fetchGifs().then(gifs => {
-  //     setGifs(gifs)
-  //     whoami(gifs).then(arr => {
-  //       const [json, gifs] = arr
-  //       if(json.user) {
-  //         setUser(json.user)
-  //         setGifs(loadCartFromResource(json.user.items))
-  //       } else {
-  //         setGifs(loadCartFromLocalStorage(gifs))
-  //       }
-  //     })
-  //   });
-  // }, []);
-
   function addGifToCart(id) {
-    const newGifs = gifs.map((gif) =>
-      gif.id === id ? { ...gif, cart: true } : gif
-    );
-    setGifs(newGifs);
-    if(user){ 
-      addToCart(id).then(json => setGifs(loadCartFromResource(json.items)))
+    const gif = gifs.find((gif) => gif.id === id);
+    const newCart = [...cart, gif];
+    setCart(newCart);
+
+    if (user) {
+      addToCart(id).then((json) => setCart(json.items));
+      // addToCart(id).then((json) => setGifs(loadCartFromResource(json.items)));
     } else {
       localStorage.setItem(
         "cart",
-        JSON.stringify({ content: cartGifs(newGifs) })
+        JSON.stringify({ content: cartGifs(gifs, newCart) })
       );
     }
   }
 
   function remGifFromCart(id) {
-    const newGifs = gifs.map((gif) =>
-      gif.id === id ? { ...gif, cart: false } : gif
-    );
-    setGifs(newGifs);
-    if(user){
-      removeFromCart(id).then(json => setGifs(loadCartFromResource(json.items)))
+    const newCart = cart.filter((gif) => gif.id !== id);
+    setCart(newCart);
+
+    if (user) {
+      removeFromCart(id).then((json) => setCart(json.items));
+      // removeFromCart(id).then((json) =>
+      //   setGifs(loadCartFromResource(json.items))
+      // );
     } else {
       localStorage.setItem(
         "cart",
-        JSON.stringify({ content: cartGifs(newGifs) })
+        JSON.stringify({ content: cartGifs(gifs, newCart) })
       );
     }
   }
 
   function emptyCart() {
     localStorage.removeItem("cart");
-    setGifs((gifs) => gifs.map((gif) => ({ ...gif, cart: false })));
+    setCart([]);
   }
 
-  function loadCartFromLocalStorage(gifs) {
-    const cart = localStorage.getItem("cart") || false;
-    if(cart){
-      return loadCartFromResource(JSON.parse(cart).content)
-    } else {
-      return gifs
-    }
-  }
+  // function loadCartFromResource(cart) {
+  //   const cartIds = cart.map((gif) => gif.id);
+  //   const newGifs = gifs.filter((gif) => !cartIds.includes(gif.id));
 
-  function loadCartFromResource(cart) {
-    // debugger
-    const cartIds = cart.map((gif) => gif.id);
-    // const newCart = gifs.filter(gif => cartIds.includes(gif.id))
-    const newGifs = gifs.filter((gif) => !cartIds.includes(gif.id));
-    return [...newGifs, ...cart.map(gif => ({...gif, cart: true}))];
-  }
+  //   return [...newGifs, ...cart.map((gif) => ({ ...gif, cart: true }))];
+  // }
 
   function handleLogout() {
-    if(window.confirm('Would you like to log out?')
-    ){
-      localStorage.removeItem('token')
-      //localStorage.clear()
-      setUser(false)
+    if (window.confirm("Would you like to log out?")) {
+      localStorage.removeItem("token");
+
+      setUser(false);
+      setCart(() => {
+        const cart = localStorage.getItem("cart");
+        if (cart) {
+          return JSON.parse(cart).content;
+        } else {
+          return [];
+        }
+      });
     }
   }
-  //cart stays on page after log out cuz saved to localStorage
 
   function handleDelete() {
-    if(window.confirm('Would you like to delete your profile?')
-    ){
-      localStorage.removeItem('token')
-      setUser(false)
-      deleteUser(user)
-      // history.push('/')
-      // .then(resp => {
-      //   resp && setRedirect(true)
-      // })
-    }
-  }
+    if (window.confirm("Would you like to delete your profile?")) {
+      // localStorage.removeItem("token");
+      // setUser(false);
 
-  function handleRedirect() {
-    history.push('/')
+      deleteUser(user);
+
+      localStorage.removeItem("token");
+
+      setUser(false);
+      setCart(() => {
+        const cart = localStorage.getItem("cart");
+        if (cart) {
+          return JSON.parse(cart).content;
+        } else {
+          return [];
+        }
+      });
+    }
   }
 
   return (
     <Router>
       <NavBar user={user} handleClick={handleLogout} />
-      {redirect && handleRedirect()}
       <Switch>
         <Route exact path="/">
           <Cart
-            gifs={cartGifs(gifs)}
+            gifs={cartGifs(gifs, cart)}
             handleClick={remGifFromCart}
             linkTo="/checkout"
             buttonText="Proceed to Checkout"
@@ -149,7 +136,7 @@ export default function App() {
 
         <Route path="/checkout">
           <Checkout
-            gifs={cartGifs(gifs)}
+            gifs={cartGifs(gifs, cart)}
             remGifFromCart={remGifFromCart}
             setOrderConf={setOrderConf}
             emptyCart={emptyCart}
@@ -161,21 +148,22 @@ export default function App() {
         </Route>
 
         <Route path="/signup">
-          <Signup setUser={setUser} />
+          <Signup setUser={setUser} setCart={setCart} />
         </Route>
 
         <Route path="/login">
-          <Login setUser={setUser} />
+          <Login setUser={setUser} setCart={setCart} />
         </Route>
 
         <Route path="/profile">
-          {user && <Profile {...user} handleDelete={handleDelete}/>}
+          {user && <Profile {...user} handleDelete={handleDelete} />}
         </Route>
       </Switch>
     </Router>
   );
 }
 
-function cartGifs(gifs) {
-  return gifs.filter((gif) => gif.cart);
+function cartGifs(gifs, cart) {
+  const cartIds = cart.map((gif) => gif.id);
+  return gifs.filter((gif) => cartIds.includes(gif.id));
 }

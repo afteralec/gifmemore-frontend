@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { signup } from "../services/api2";
 
-
-export default function Signup({setUser}) {
-
+export default function Signup({ setUser, setCart }) {
   const [form, setForm] = useState({
       name: "",
       email: "",
@@ -14,32 +12,25 @@ export default function Signup({setUser}) {
     history = useHistory(),
     [error, setError] = useState(false);
 
-
-    const [form, setForm] = React.useState({
-        name: '',
-        email: '', 
-        password: ''
-    }),
-    history = useHistory()
-
   function handleChange(e) {
     let obj = { [e.target.name]: e.target.value };
     setForm((prev) => ({ ...prev, ...obj }));
   }
-  
+
   function handleSubmit(e) {
     e.preventDefault();
-    if(form.password !== pwConfirmation) {
-      setError(true)
+    if (form.password !== pwConfirmation) {
+      setError(true);
     } else {
       signup({ user: { ...form } }).then((json) => {
-          localStorage.setItem('token', json.jwt)
-          setUser(json.user)
+        localStorage.setItem("token", json.jwt);
+        setUser(json.user);
+        setCart([]);
         history.push("/profile");
-      })
+      });
     }
   }
-  
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -81,14 +72,14 @@ export default function Signup({setUser}) {
             value={pwConfirmation}
             name="password_confirmation"
             onChange={(e) => {
-              setError(false)
-              setPwConfirmation(e.target.value)}
-            }
+              setError(false);
+              setPwConfirmation(e.target.value);
+            }}
           />
         </label>
         <button>Submit</button>
       </form>
-      { error && 'Passwords do not match'}
+      {error && "Passwords do not match"}
     </div>
   );
 }
