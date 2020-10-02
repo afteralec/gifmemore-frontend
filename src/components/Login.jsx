@@ -17,7 +17,6 @@ export default function Login({ setUser, setCart }) {
   function handleSubmit(e) {
     e.preventDefault();
     login({ user: { ...form } }).then((json) => {
-      console.log(json);
       if (json.error) {
         alert(json.error);
       } else {

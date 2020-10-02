@@ -85,7 +85,7 @@ export default function Signup({ setUser, setCart }) {
       </form>
 
       {error && (
-        <div>
+        <div className="flex flex-col flex-center">
           <br />
           <p className="error">Passwords do not match.</p>
         </div>
