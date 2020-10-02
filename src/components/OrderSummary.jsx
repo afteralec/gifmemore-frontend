@@ -2,14 +2,14 @@ import React from "react";
 
 export default function OrderSummary({ gifs, total }) {
   return (
-    <div>
+    <div className="cont-order-summary " >
       {gifs.map((gif) => (
-        <div key={gif.id}>
-          <p>{gif.title}</p>
-          <p>${gif.price}</p>
+        <div className="item-div" key={gif.id}>
+          <p >{gif.title}</p>
+          <p >${gif.price}</p>
         </div>
       ))}
-      <p>
+      <p className="item-div">
         <strong>Total: </strong>
         {/* {gifs.reduce((memo, gif) => memo + gif.price, 0)} */}
         ${total}
