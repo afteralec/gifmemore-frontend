@@ -42,6 +42,7 @@ function OrderForm({ total, itemIds, setOrderConf, emptyCart }) {
         <div className="flex flex-center flex-col flow-s-left">
           <label>Name</label>
           <input
+            require
             type="text"
             placeholder="Enter Your Name"
             value={form.name}
@@ -53,6 +54,7 @@ function OrderForm({ total, itemIds, setOrderConf, emptyCart }) {
         <div className="flex flex-center flex-col flow-s-left">
           <label>Email</label>
           <input
+            require
             type="email"
             placeholder="Enter Your Email"
             value={form.email}
@@ -68,6 +70,7 @@ function OrderForm({ total, itemIds, setOrderConf, emptyCart }) {
         <div className="flex flex-center flex-col flow-s-left">
           <label>Line1</label>
           <input
+            require
             type="text"
             placeholder="Line1"
             value={form.address.line1}
@@ -79,6 +82,7 @@ function OrderForm({ total, itemIds, setOrderConf, emptyCart }) {
         <div className="flex flex-center flex-col flow-s-left">
           <label>Line2</label>
           <input
+            require
             type="text"
             placeholder="Line2"
             value={form.address.line2}
@@ -90,6 +94,7 @@ function OrderForm({ total, itemIds, setOrderConf, emptyCart }) {
         <div className="flex flex-center flex-col flow-s-left">
           <label>City</label>
           <input
+            require
             type="text"
             placeholder="City"
             value={form.address.city}
@@ -101,6 +106,7 @@ function OrderForm({ total, itemIds, setOrderConf, emptyCart }) {
         <div className="flex flex-center flex-col flow-s-left">
           <label>State</label>
           <input
+            require
             type="text"
             placeholder="State"
             value={form.address.state}
@@ -112,6 +118,7 @@ function OrderForm({ total, itemIds, setOrderConf, emptyCart }) {
         <div className="flex flex-center flex-col flow-s-left">
           <label>Zip</label>
           <input
+            require
             type="text"
             placeholder="Zip Code"
             value={form.address.zip}

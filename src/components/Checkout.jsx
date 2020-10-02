@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Cart from "./Cart";
 import Column from "./Column";
 import OrderSummary from "./OrderSummary";
 import OrderForm from "./OrderForm";
