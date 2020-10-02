@@ -1,18 +1,20 @@
 import React from "react";
 
-export default function OrderSummary({ gifs, total }) {
+export default function OrderSummary({ gifs, total, handleClick }) {
   return (
-    <div className="cont-order-summary " >
+    <div className="cont-order-summary ">
       {gifs.map((gif) => (
-        <div className="item-div" key={gif.id}>
-          <p >{gif.title}</p>
-          <p >${gif.price}</p>
+        <div
+          onClick={() => handleClick(gif.id)}
+          className="item-div"
+          key={gif.id}
+        >
+          <p>{gif.title}</p>
+          <p>${gif.price}</p>
         </div>
       ))}
       <p className="item-div">
-        <strong>Total: </strong>
-        {/* {gifs.reduce((memo, gif) => memo + gif.price, 0)} */}
-        ${total}
+        <strong>Total: </strong>${parseFloat(total).toFixed(2)}
       </p>
     </div>
   );

@@ -1,15 +1,9 @@
 import React from "react";
 import Column from "./Column";
-import Gif from "./Gif";
 
 export default function StoreFront({ gifs, handleClick }) {
   return (
-    <div className="flex flex-start storefront">
-      {renderColumns(gifs, handleClick)}
-      {/* {gifs.map((gif) => (
-        <Gif key={gif.id} handleClick={handleClick} {...gif} />
-      ))} */}
-    </div>
+    <div className="flex flex-start">{renderColumns(gifs, handleClick)}</div>
   );
 }
 

@@ -64,8 +64,9 @@ export default function Profile({ name, email, setUser, handleDelete }) {
   }
 
   return (
-    <div>
-      Welcome {name}
+    <div className="flex flex-col flex-center flow fx-2">
+      <p>Welcome, {name}!</p>
+      <p>Click a field below to edit your profile.</p>
       {showForm("name") ? (
         <FormField
           type="text"
@@ -76,7 +77,9 @@ export default function Profile({ name, email, setUser, handleDelete }) {
           handleChange={handleChange}
         />
       ) : (
-        <div onClick={() => handleClick("name")}>{name}</div>
+        <div onClick={() => handleClick("name")}>
+          <span className="profile-link">Name: {name}</span>
+        </div>
       )}
       {showForm("email") ? (
         <FormField
@@ -88,9 +91,11 @@ export default function Profile({ name, email, setUser, handleDelete }) {
           handleChange={handleChange}
         />
       ) : (
-        <div onClick={() => handleClick("email")}>{email}</div>
+        <div onClick={() => handleClick("email")}>
+          <span className="profile-link">Email: {email}</span>
+        </div>
       )}
-      <NavLink to="/" onClick={handleDelete}>
+      <NavLink className="delete-link" to="/" onClick={handleDelete}>
         Delete Profile
       </NavLink>
     </div>

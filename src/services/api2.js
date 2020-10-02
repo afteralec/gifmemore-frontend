@@ -51,8 +51,6 @@ export async function updateUser(user) {
 
   const resp = await fetch(ENDPOINT, config);
   return await resp.json();
-
-  console.log(user, config);
 }
 
 export async function deleteUser(userData) {

@@ -33,9 +33,9 @@ export default function Signup({ setUser, setCart }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name
+      <form className="flex flex-col flex-center flow" onSubmit={handleSubmit}>
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Name</label>
           <input
             type="text"
             placeholder="Enter Your Name"
@@ -43,9 +43,10 @@ export default function Signup({ setUser, setCart }) {
             name="name"
             onChange={handleChange}
           />
-        </label>
-        <label>
-          Email
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Email</label>
           <input
             type="email"
             placeholder="Enter Your Email"
@@ -53,9 +54,10 @@ export default function Signup({ setUser, setCart }) {
             name="email"
             onChange={handleChange}
           />
-        </label>
-        <label>
-          Password
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Password</label>
           <input
             type="password"
             placeholder="Enter Your Password"
@@ -63,9 +65,10 @@ export default function Signup({ setUser, setCart }) {
             name="password"
             onChange={handleChange}
           />
-        </label>
-        <label>
-          Password Confirmation
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Password Confirmation</label>
           <input
             type="password"
             placeholder="Re-enter Your Password"
@@ -76,10 +79,17 @@ export default function Signup({ setUser, setCart }) {
               setPwConfirmation(e.target.value);
             }}
           />
-        </label>
-        <button>Submit</button>
+        </div>
+
+        <input type="submit" value="Sign Me Up!" />
       </form>
-      {error && "Passwords do not match"}
+
+      {error && (
+        <div>
+          <br />
+          <p className="error">Passwords do not match.</p>
+        </div>
+      )}
     </div>
   );
 }
