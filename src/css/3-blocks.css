@@ -3,9 +3,146 @@
   font-family: "Epilogue", sans-serif;
 }
 
-.storefront {
-  max-width: 800px;
-  /* margin-right: auto;
-  margin-left: auto; */
-  text-align: center;
+.logo-scrolled {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: black;
+  color: white;
+  border-radius: 30px;
+}
+
+.icon-cart {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+  justify-self: end;
+  align-self: end;
+}
+
+.icon-cart:hover {
+  cursor: pointer;
+}
+
+.icon-cart-scrolled {
+  position: fixed;
+  z-index: 1;
+  margin: 1rem;
+  border-radius: 30px;
+  color: white;
+  background-color: black;
+}
+
+.icon-cart-scrolled:hover {
+  font-size: 2rem;
+  transition: ease-in 0.5s;
+}
+
+.logo-scrolled:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 75%;
+  margin: 0 auto;
+}
+
+.gif-hover:hover {
+  transform: translateY(-15%) scale(1.2);
+  transition: ease-in-out 0.5s;
+  box-shadow: 0 0.5rem 15px #333;
+  cursor: pointer;
+}
+
+.cart {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  padding: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 25px;
+  transition: ease-in-out 0.5s;
+}
+
+.item-div {
+  padding: 1rem;
+  align-content: center;
+}
+
+.cont-order-summary {
+  align-items: center;
+  margin: 8rem 20rem 8rem;
+  border: 0.3rem solid;
+}
+
+.order-form {
+  align-items: center;
+  margin: 3rem 5rem 3rem;
+  display: -ms-inline-flexbox;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 0.5rem 0.75rem;
+  border: #333 1px solid;
+  border-radius: 5px;
+  font-size: 1.1rem;
+}
+
+input[type="submit"] {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border-radius: 15px;
+  background-color: #333;
+  color: goldenrod;
+}
+
+input[type="submit"]:hover {
+  color: #333;
+  background-color: goldenrod;
+  cursor: pointer;
+}
+
+.error {
+  color: firebrick;
+  font-size: 1.2rem;
+}
+
+.btn {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border-radius: 15px;
+  background-color: #333;
+  color: goldenrod;
+}
+
+.btn:hover {
+  color: #333;
+  background-color: goldenrod;
+  cursor: pointer;
+}
+
+.delete-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: firebrick;
+}
+
+.profile-link {
+  color: #333;
+}
+
+.profile-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: black;
 }

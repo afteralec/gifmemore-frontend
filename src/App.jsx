@@ -17,7 +17,8 @@ export default function App() {
   const [gifs, setGifs] = useState([]),
     [orderConf, setOrderConf] = useState(false),
     [user, setUser] = useState(false),
-    [cart, setCart] = useState([]);
+    [cart, setCart] = useState([]),
+    [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     fetchGifs().then(setGifs);
@@ -37,6 +38,10 @@ export default function App() {
       }
     });
   }, []);
+
+  function toggleCart() {
+    setShowCart((showCart) => !showCart);
+  }
 
   function addGifToCart(id) {
     const gif = gifs.find((gif) => gif.id === id);
@@ -108,15 +113,23 @@ export default function App() {
 
   return (
     <Router>
-      <NavBar gifs={cart} user={user} handleClick={handleLogout} />
+      <NavBar
+        gifs={cart}
+        user={user}
+        handleClick={handleLogout}
+        toggleCart={toggleCart}
+        cartLength={cart.length}
+      />
       <Switch>
         <Route exact path="/">
-          <Cart
-            gifs={cartGifs(gifs, cart)}
-            handleClick={remGifFromCart}
-            linkTo="/checkout"
-            buttonText="Proceed to Checkout"
-          />
+          {showCart && cart.length > 0 && (
+            <Cart
+              gifs={cartGifs(gifs, cart)}
+              handleClick={remGifFromCart}
+              linkTo="/checkout"
+              buttonText="Proceed to Checkout"
+            />
+          )}
           <StoreFront gifs={gifs} handleClick={addGifToCart} />
         </Route>
 

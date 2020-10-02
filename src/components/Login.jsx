@@ -31,9 +31,9 @@ export default function Login({ setUser, setCart }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
+      <form className="flex flex-col flex-center flow" onSubmit={handleSubmit}>
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Email</label>
           <input
             type="email"
             placeholder="Enter Your Email"
@@ -41,9 +41,10 @@ export default function Login({ setUser, setCart }) {
             name="email"
             onChange={handleChange}
           />
-        </label>
-        <label>
-          Password
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Password</label>
           <input
             type="password"
             placeholder="Enter Your Password"
@@ -51,8 +52,9 @@ export default function Login({ setUser, setCart }) {
             name="password"
             onChange={handleChange}
           />
-        </label>
-        <button>Submit</button>
+        </div>
+
+        <input type="submit" value="Let's Go!" />
       </form>
     </div>
   );

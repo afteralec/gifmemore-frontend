@@ -1,18 +1,14 @@
 import React from "react";
 import Gif from "./Gif";
-import { Link } from "react-router-dom";
 
-export default function Cart({ gifs, handleClick, linkTo, buttonText }) {
+export default function Cart({ gifs, handleClick }) {
   return (
     <>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap cart">
         {gifs.map((gif) => (
           <Gif key={gif.id} handleClick={handleClick} {...gif} />
         ))}
       </div>
-      <Link to={linkTo}>
-        {gifs.length > 0 && <button>{buttonText}</button>}
-      </Link>
     </>
   );
 }

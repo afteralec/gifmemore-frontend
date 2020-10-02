@@ -1,76 +1,128 @@
-import React, {useState} from 'react'
-import { useHistory } from 'react-router-dom'
-import { postOrder } from '../services/api2'
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { postOrder } from "../services/api2";
 
-function OrderForm({total, itemIds, setOrderConf, emptyCart}) {
+function OrderForm({ total, itemIds, setOrderConf, emptyCart }) {
+  const history = useHistory();
+  const defaultForm = {
+    name: "",
+    email: "",
+    address: { line1: "", line2: "", city: "", state: "", zip: "" },
+  };
+  const [form, setForm] = useState(defaultForm);
 
-    const history = useHistory()
-    const defaultForm = {
-        name: '',
-        email: '',
-        address: { line1: '', line2: '', city: '', state: '', zip: '' }
-    }
-    const [form, setForm] = useState(defaultForm)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    postOrder({ order: { ...form, amount: total, item_ids: itemIds } }).then(
+      (res) => {
+        setOrderConf(res);
+        emptyCart();
+      }
+    );
+    history.push("/thank-you");
+    setForm(defaultForm);
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        postOrder({order: {...form, amount: total, item_ids: itemIds}}).then((res)=> {
-            setOrderConf(res)
-            emptyCart()
-        })
-        history.push('/thank-you')
-        setForm(defaultForm)
-    }
+  const handleChange = (e) => {
+    let obj = { [e.target.name]: e.target.value };
+    setForm((prevState) => ({ ...prevState, ...obj }));
+  };
 
-    const handleChange = (e) => {
-        let obj = {[e.target.name]: e.target.value}
-         setForm(prevState => ({ ...prevState, ...obj }))        
-    }
+  const handleChangeAddress = (e) => {
+    let obj = { [e.target.name]: e.target.value };
+    setForm((prevState) => ({
+      ...prevState,
+      address: { ...prevState.address, ...obj },
+    }));
+  };
 
-    const handleChangeAddress = (e) => {
-        let obj = {[e.target.name]: e.target.value}
-        setForm(prevState => ({ ...prevState, address: { ...prevState.address, ...obj } }))
-        
-    }
+  return (
+    <div>
+      <form className="flex flex-col flex-center flow" onSubmit={handleSubmit}>
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Name</label>
+          <input
+            type="text"
+            placeholder="Enter Your Name"
+            value={form.name}
+            name="name"
+            onChange={handleChange}
+          />
+        </div>
 
-    return (
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Email</label>
+          <input
+            type="email"
+            placeholder="Enter Your Email"
+            value={form.email}
+            name="email"
+            onChange={handleChange}
+          />
+        </div>
+
         <div>
-            <form className='order-form' onSubmit={handleSubmit}>
-                <label>
-                    Name
-                <input type='text' placeholder='Enter Your Name' value={form.name} name='name' onChange={handleChange} />
-                </label>
-                <label>
-                    Email
-                <input type='email' placeholder='Enter Your Email' value={form.email} name='email' onChange={handleChange} />
-                </label>
-                <label>
-                    Address
-                </label>
-                <label>
-                    Line1
-                <input type='text' placeholder='Line1' value={form.address.line1} name='line1' onChange={handleChangeAddress} />
-                </label>
-                <label>
-                    Line2
-                <input type='text' placeholder='Line2' value={form.address.line2} name='line2' onChange={handleChangeAddress} />
-                </label>
-                <label>
-                    City
-                <input type='text' placeholder='City' value={form.address.city} name='city' onChange={handleChangeAddress} />
-                </label>
-                <label>
-                    State
-                <input type='text' placeholder='State' value={form.address.state} name='state' onChange={handleChangeAddress} />
-                </label>
-                <label>
-                    Zip Code
-                <input type='text' placeholder='Zip Code' value={form.address.zip} name='zip' onChange={handleChangeAddress} />
-                </label>
-                <button >Submit</button>
-            </form>
-        </div >
-    )
+          <label>Address</label>
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Line1</label>
+          <input
+            type="text"
+            placeholder="Line1"
+            value={form.address.line1}
+            name="line1"
+            onChange={handleChangeAddress}
+          />
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Line2</label>
+          <input
+            type="text"
+            placeholder="Line2"
+            value={form.address.line2}
+            name="line2"
+            onChange={handleChangeAddress}
+          />
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>City</label>
+          <input
+            type="text"
+            placeholder="City"
+            value={form.address.city}
+            name="city"
+            onChange={handleChangeAddress}
+          />
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>State</label>
+          <input
+            type="text"
+            placeholder="State"
+            value={form.address.state}
+            name="state"
+            onChange={handleChangeAddress}
+          />
+        </div>
+
+        <div className="flex flex-center flex-col flow-s-left">
+          <label>Zip</label>
+          <input
+            type="text"
+            placeholder="Zip Code"
+            value={form.address.zip}
+            name="zip"
+            onChange={handleChangeAddress}
+          />
+        </div>
+        <input type="submit" value="Submit Order" />
+      </form>
+    </div>
+  );
 }
 
-export default OrderForm
+export default OrderForm;
