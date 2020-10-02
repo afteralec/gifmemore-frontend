@@ -35,7 +35,7 @@ function OrderForm({total, itemIds, setOrderConf, emptyCart}) {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form className='order-form' onSubmit={handleSubmit}>
                 <label>
                     Name
                 <input type='text' placeholder='Enter Your Name' value={form.name} name='name' onChange={handleChange} />

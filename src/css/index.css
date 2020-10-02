@@ -4,6 +4,7 @@
 @import "./2-utilities.css";
 @import "./3-blocks.css";
 @import "./4-exceptions.css";
+@import "./5-orderSummary.css";
 
 /* Font imports */
 @import url("https://fonts.googleapis.com/css2?family=Epilogue:wght@500&display=swap");
